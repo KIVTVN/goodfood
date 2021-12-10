@@ -1,0 +1,57 @@
+http:
+  port: 8080
+admin:
+  port: 9876
+  host: localhost
+
+apiEndpoints:
+  users:
+    path: ['/users', '/users/*']
+  auth:
+    path: ['/auth', '/auth/*']
+
+serviceEndpoints:
+  users:
+    url: 'http://users:3001'
+  auth:
+    url: 'http://auth:3002'
+
+policies:
+  - log
+  - proxy
+  # - jwt
+  # - request-transformer
+
+pipelines:
+  authPipeline:
+    apiEndpoints:
+      - auth
+    policies:
+      - log:
+          action:
+            message: 'auth ${req.method}'
+      - proxy:
+          - action:
+              serviceEndpoint: auth
+              changeOrigin: true
+
+  usersPipeline:
+    apiEndpoints:
+      - users
+    policies:
+      - log:
+          action:
+            message: 'users ${req.method}'
+      - proxy:
+          - action:
+              serviceEndpoint: users
+              changeOrigin: true
+      # - jwt:
+      #     action:
+      #       secretOrPublicKey: 'goodfood'
+      #       checkCredentialExistence: false
+      # - request-transformer:
+      #     action:
+      #       body:
+      #         add:
+      #           user: req.user
