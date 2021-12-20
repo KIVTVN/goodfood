@@ -10,8 +10,8 @@ router.get('/', require('../controllers/getUsers'));
 // Read ONE User by ID
 router.get('/:id', require('../controllers/getUser'));
 
-// Read ONE User
-router.get('/email/:email', require('../controllers/getUser'));
+// Read ONE User By Email
+router.post('/email', require('../controllers/getUserByEmail'));
 
 // Update User
 router.put('/:id', require('../controllers/putUser'));

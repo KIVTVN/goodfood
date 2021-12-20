@@ -4,7 +4,7 @@ const db = require('../utils/postgres');
 module.exports = async (req, res) => {
   try {
     const { rows } = await db.query(
-      `SELECT * FROM users WHERE email = '${req.params.email}'`,
+      `SELECT * FROM users WHERE email = '${req.body.email}'`,
     );
 
     rows.length !== 0

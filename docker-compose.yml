@@ -7,8 +7,8 @@ services:
   # GATEWAY MICRO SERVICE #################################
   #########################################################
 
-  gateway:
-    container_name: gateway
+  gateway-api:
+    container_name: gateway-api
     image: 'node:17-alpine'
     # env_file:
     #   - ./gateway/.env
@@ -17,7 +17,7 @@ services:
       - './gateway:/usr/src/app'
     command: npm run dev
     ports:
-      - '8080:8080'
+      - '5000:5000'
     networks:
       - goodfood
 
@@ -25,8 +25,8 @@ services:
   # AUTH MICRO SERVICE ####################################
   #########################################################
 
-  auth:
-    container_name: auth
+  auth-api:
+    container_name: auth-api
     image: 'node:17-alpine'
     # env_file:
     #   - ./auth/.env
@@ -35,7 +35,7 @@ services:
       - './auth:/usr/src/app'
     command: npm run dev
     ports:
-      - '3002:3000'
+      - '3002:3002'
     networks:
       - goodfood
 
@@ -47,8 +47,8 @@ services:
   # USERS API ###############
   ###########################
 
-  users:
-    container_name: users
+  users-api:
+    container_name: users-api
     image: 'node:17-alpine'
     env_file:
       - ./users/api/.env
@@ -57,7 +57,7 @@ services:
       - './users/api:/usr/src/app'
     command: npm run dev
     ports:
-      - '3001:3000'
+      - '3001:3001'
     networks:
       - goodfood
     depends_on:
@@ -86,7 +86,7 @@ services:
     restart: unless-stopped
     image: adminer
     ports:
-      - '8181:8080'
+      - '8080:8080'
     networks:
       - goodfood
     depends_on:
